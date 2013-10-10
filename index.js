@@ -93,6 +93,7 @@ module.exports = function(opts) {
   });
 
   app.configure('development', function() {
+    if (!API_URL) return;
     // Proxy the api
     var proxy = require('simple-http-proxy');
     app.useBefore('base', '/api', 'api-proxy', proxy(API_URL, {xforward: headers}));
@@ -158,3 +159,9 @@ module.exports = function(opts) {
 
   return app;
 };
+
+/**
+ * Expose the middleware
+ */
+
+stack.middleware(module.exports.middleware = {});
