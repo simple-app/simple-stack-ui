@@ -34,18 +34,18 @@ module.exports = function(opts) {
   var ENABLED_FEATURES = opts.enabledFeatures || envs('ENABLED_FEATURES', '');
 
   function assetLookup(file, path) {
-    return [CDN_URL, path, assets(file)].join('/');
+    return CDN_URL + path + '/' + assets(file);
   }
 
   var styles = opts.styles || function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.css' : 'build/build.css')
+      assetLookup(min ? 'build/build.min.css' : 'build/build.css', path)
     ];
   }
 
   var scripts = opts.scripts || function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.js' : 'build/build.js')
+      assetLookup(min ? 'build/build.min.js' : 'build/build.js', path)
     ];
   }
 
@@ -83,7 +83,7 @@ module.exports = function(opts) {
 
   app.useBefore('router', function assetLocals(req, res, next) {
     var min = req.get('x-env') === 'production';
-    var path = req.get('x-orig-path');
+    var path = req.get('x-orig-path') || '';
 
     res.locals({
       styles: styles(min, path),
