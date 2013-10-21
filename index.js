@@ -22,30 +22,33 @@ var headers = {
  * Expose the app
  */
 
-module.exports = function(opts) {
+exports = module.exports = function(opts) {
   opts = opts || {};
 
   var root = opts.root || process.cwd();
   var restricted = opts.restricted;
-  var CDN_URL = opts.cdn || envs('CDN_URL', '');
+  var CDN_URL = opts.cdn || envs('CDN_URL') || '';
   var STATIC_MAX_AGE = opts.staticMaxAge || envs.int('STATIC_MAX_AGE', 0);
   var API_URL = opts.apiUrl || envs('API_URL');
   var SITE_URL = opts.siteUrl || envs('SITE_URL');
-  var ENABLED_FEATURES = opts.enabledFeatures || envs('ENABLED_FEATURES', '');
+  var ENABLED_FEATURES = opts.enabledFeatures || envs('ENABLED_FEATURES') || '';
+  var routes = Object.keys(opts.routes || {'/': 'index'});
 
-  function assetLookup(file, path) {
-    return CDN_URL + path + '/' + assets(file);
+  function assetLookup(file, path, useCdn) {
+    return (useCdn ? CDN_URL : '') + path + '/' + assets(file);
   }
 
-  var styles = opts.styles || function(min, path) {
+  // TODO allow adding scripts and styles
+
+  var styles = function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.css' : 'build/build.css', path)
+      assetLookup(min ? 'build/build.min.css' : 'build/build.css', path, min)
     ];
   }
 
-  var scripts = opts.scripts || function(min, path) {
+  var scripts = function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.js' : 'build/build.js', path)
+      assetLookup(min ? 'build/build.min.js' : 'build/build.js', path, min)
     ];
   }
 
@@ -113,21 +116,6 @@ module.exports = function(opts) {
   });
 
   /**
-   * Index
-   */
-
-  app.use('/', function index(req, res, next){
-    // If we don't have the site url set, get it from the header or env
-    if (!res.locals.site) res.locals.site = req.get('x-ui-url') || SITE_URL || req.base;
-
-    auth.authenticate(restricted)(req, res, function(err) {
-      if (err) return next(err);
-
-      res.render(app.get('index view') || 'index');
-    });
-  });
-
-  /**
    * Serve feature flags
    */
 
@@ -137,6 +125,7 @@ module.exports = function(opts) {
   } catch (e) {};
 
   app.get('/features.json', function(req, res) {
+    if (features === '') return res.send([]);
     res.send(features.split(','));
   });
 
@@ -157,6 +146,31 @@ module.exports = function(opts) {
   app.remove('methodOverride');
   app.remove('bodyParser');
 
+  /**
+   * Index
+   */
+
+  function index(req, res, next){
+    // If we don't have the site url set, get it from the header or env
+    if (!res.locals.site) res.locals.site = req.get('x-ui-url') || SITE_URL || req.base;
+
+    auth.authenticate(restricted)(req, res, function(err) {
+      if (err) return next(err);
+
+      // TODO send dns-prefetch the api and cdn
+
+      res.render(app.get('index view') || 'index');
+    });
+  };
+
+  /**
+   * Mount the routes
+   */
+
+  routes.forEach(function(route) {
+    app.get(route, index);
+  });
+
   return app;
 };
 
@@ -164,4 +178,4 @@ module.exports = function(opts) {
  * Expose the middleware
  */
 
-stack.middleware(module.exports.middleware = {});
+stack.middleware(exports.middleware = {});
