@@ -32,7 +32,22 @@ exports = module.exports = function(opts) {
   var API_URL = opts.apiUrl || envs('API_URL');
   var SITE_URL = opts.siteUrl || envs('SITE_URL');
   var ENABLED_FEATURES = opts.enabledFeatures || envs('ENABLED_FEATURES') || '';
-  var routes = Object.keys(opts.routes || {'/': 'index'});
+
+  // Load in the routes
+  if (!opts.routes) {
+    try {
+      opts.routes = require(root + '/public/javascripts/routes');
+    } catch (e) {
+      opts.routes = {'/': 'index'};
+    }
+  }
+  var routes = Object.keys(opts.routes);
+
+  // Load the package.json
+  var package = {};
+  try {
+    package = require(root + '/package.json');
+  } catch (e) {}
 
   function assetLookup(file, path, useCdn) {
     return (useCdn ? CDN_URL : '') + path + '/' + assets(file);
@@ -67,6 +82,26 @@ exports = module.exports = function(opts) {
   app.set('view engine', 'jade');
 
   /**
+   * Set locals defauls
+   */
+
+  app.locals({
+    app: package.name,
+    description: package.description,
+    author: package.author,
+    env: {}
+  });
+
+  /**
+   * Expose a way to set browser env variables
+   */
+
+  app.env = function(key, value) {
+    app.locals.env[key] = value;
+    return app;
+  };
+
+  /**
    * Extra middleware
    */
 
@@ -79,10 +114,6 @@ exports = module.exports = function(opts) {
   app.useBefore('router', '/build', 'build', stack.middleware.static(root + '/build', {
     maxAge: STATIC_MAX_AGE
   }));
-
-  app.useBefore('router', '/build', function buildNotFound(req, res) {
-    res.send(404);
-  });
 
   app.useBefore('router', function assetLocals(req, res, next) {
     var min = req.get('x-env') === 'production';
