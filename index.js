@@ -121,7 +121,7 @@ exports = module.exports = function(opts) {
 
   var features = '';
   try {
-    features = require(root + '/features.json');
+    features = require(root + '/features.json').join(',');
   } catch (e) {};
 
   app.get('/features.json', function(req, res) {
