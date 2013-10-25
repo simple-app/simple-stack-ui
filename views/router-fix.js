@@ -1,10 +1,20 @@
-if (history.pushState) return;
+(function() {
+  window.localStorage = false;
+  window.sessionStorage = false;
+  document.createEvent = function(){
+    return {
+      initEvent: function(){}
+    }
+  };
 
-//if hashbang url found and we are not on our base then go to base
-if (window.location.hash.charAt(1) === "!" && window.location.pathname !== '/') {
-  window.location.replace('/#!' + window.location.hash.substring(2));
-}
-//if hasbang not found then convert link to hashbang mode
-if(window.location.hash.charAt(1) !== "!") {
-  window.location.replace('/#!' + window.location.pathname + window.location.search + window.location.hash);
-}
+  if (history.pushState) return;
+
+  //if hashbang url found and we are not on our base then go to base
+  if (window.location.hash.charAt(1) === "!" && window.location.pathname !== '/') {
+    window.location.replace('/#!' + window.location.hash.substring(2));
+  }
+  //if hasbang not found then convert link to hashbang mode
+  if(window.location.hash.charAt(1) !== "!") {
+    window.location.replace('/#!' + window.location.pathname + window.location.search + window.location.hash);
+  }
+})();
