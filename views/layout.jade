@@ -24,9 +24,9 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
         script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
         //- TODO minify this
-        include ./ie-shams.js
+        include ./ie-fixes.js
 
-  body
+  body(data-ng-controller="HyperController")
     block body
 
     block scripts
