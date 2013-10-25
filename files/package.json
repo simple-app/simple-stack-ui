@@ -15,7 +15,7 @@
     "npm": "1.x.x"
   },
   "dependencies": {
-    "simple-stack-ui": "~0.1.1",
+    "simple-stack-ui": "~0.2.1",
     "startup": "~0.3.0",
     "envs": "~0.1.4"
   },

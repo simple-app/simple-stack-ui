@@ -11,7 +11,8 @@
   "main": "public/javascripts/config.js",
   "scripts": [
     "public/javascripts/index.js",
-    "public/javascripts/config.js"
+    "public/javascripts/config.js",
+    "public/javascripts/routes.js"
   ],
   "styles": [
     "public/stylesheets/index.styl"
