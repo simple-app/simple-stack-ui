@@ -185,6 +185,9 @@ exports = module.exports = function(opts) {
     // If we don't have the site url set, get it from the header or env
     if (!res.locals.site) res.locals.site = req.get('x-ui-url') || SITE_URL || req.base;
 
+    // Expose the base url to the view
+    res.locals.base = req.base;
+
     auth.authenticate(restricted)(req, res, function(err) {
       if (err) return next(err);
 
