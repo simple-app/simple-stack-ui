@@ -1,6 +1,4 @@
 (function() {
-  window.localStorage = false;
-  window.sessionStorage = false;
   if (history.pushState) return;
 
   //if hashbang url found and we are not on our base then go to base
