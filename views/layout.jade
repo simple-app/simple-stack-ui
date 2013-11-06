@@ -20,7 +20,11 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
         .ng-cloak{display:none};
     block head
     block ie-shims
-      // if lte IE 8
+      // if lte IE 7
+        script.
+          window.localStorage = false;
+          window.sessionStorage = false;
+      // if lte IE 9
         script(src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
