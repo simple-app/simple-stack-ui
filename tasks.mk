@@ -12,8 +12,8 @@ PARTIAL_FILES = $(shell find public -type f -name '*.jade')
 SIMPLE_STACK      = $(CURDIR)/node_modules/simple-stack-ui
 SIMPLE_STACK_BIN  = $(SIMPLE_STACK)/node_modules/.bin
 
-DIRS  = $(shell find $(SIMPLE_STACK)/files -type d -name '*[a-zA-Z]' | sed 's/\.\///')
-FILES = $(shell find $(SIMPLE_STACK)/files -type f                   | sed 's/\.\///')
+DIRS  = $(shell find $(SIMPLE_STACK)/files -type d -name '*[a-zA-Z]' | sed 's:^$(SIMPLE_STACK)/files/::')
+FILES = $(shell find $(SIMPLE_STACK)/files -type f                   | sed 's:^$(SIMPLE_STACK)/files/::')
 
 define COMPONENT_BUILD
 $(SIMPLE_STACK_BIN)/component build --copy --use $(SIMPLE_STACK)/lib/nghtml,$(SIMPLE_STACK)/node_modules/component-stylus --standalone $(PROJECT)
@@ -29,7 +29,7 @@ $(DIRS):
 
 $(FILES):
 	@awk '{gsub(/PROJECT/, "$(PROJECT)"); gsub(/DESCRIPTION/, "$(DESCRIPTION)"); gsub(/REPO/, "$(REPO)");print}' \
-		./node_modules/simple-stack-ui/files/$@ > $@
+		$(SIMPLE_STACK)/files/$@ > $@
 
 node_modules: package.json
 	@npm install
