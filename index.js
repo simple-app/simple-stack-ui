@@ -175,7 +175,8 @@ exports = module.exports = function(opts) {
    */
 
   app.remove('methodOverride');
-  app.remove('bodyParser');
+  app.remove('json');
+  app.remove('urlencoded');
 
   /**
    * Index

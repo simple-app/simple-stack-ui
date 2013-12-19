@@ -1,6 +1,6 @@
 {
   "name": "simple-stack-ui",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "UI simple stack",
   "main": "index.js",
   "scripts": {
