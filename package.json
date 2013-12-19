@@ -16,7 +16,7 @@
     "url": "https://github.com/CamShaft/simple-stack-ui/issues"
   },
   "dependencies": {
-    "simple-stack-common": "~0.1.6",
+    "simple-stack-common": "~0.2.2",
     "envs": "~0.1.1",
     "passport": "~0.1.17",
     "passport-oauth2": "~1.1.1",
