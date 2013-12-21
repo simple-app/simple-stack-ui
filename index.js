@@ -89,7 +89,9 @@ exports = module.exports = function(opts) {
     app: package.name,
     description: package.description,
     author: package.author,
-    env: {}
+    env: {
+      BROWSER_ENV: envs('NODE_ENV', 'production')
+    }
   });
 
   /**
