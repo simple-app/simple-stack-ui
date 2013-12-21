@@ -199,6 +199,17 @@ exports = module.exports = function(opts) {
   };
 
   /**
+   * Serve an error page for any unrecoverable errors on the client
+   */
+
+  app.get('/_error', function(req, res) {
+    res.render('error', function(err, body) {
+      if (!err) return res.send(body);
+      res.render(__dirname + '/views/error');
+    });
+  });
+
+  /**
    * Mount the routes
    */
 

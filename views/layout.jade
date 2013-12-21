@@ -38,5 +38,18 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
       each script in scripts
         script(src=script)
 
+    //- TODO maybe use a script loader like headjs
     script.
+      try {
+        require('!{app}');
+      } catch (err) {
+        var message = err.stack || err.message || err.toString();
+        function displayError() {
+          // TODO log the error
+          $('body').load('_error', function() {
+            if (window.env.BROWSER_ENV === 'development') $('#error').text(message);
+          });
+        }
+        document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" onload="displayError()"><\/script>');
+      };
       if(window.metric&&metric.measure)metric.measure('page_load_time',(new Date-_s),'ms');

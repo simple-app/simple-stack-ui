@@ -16,7 +16,7 @@ DIRS  = $(shell find $(SIMPLE_STACK)/files -type d -name '*[a-zA-Z]' | sed 's:^$
 FILES = $(shell find $(SIMPLE_STACK)/files -type f                   | sed 's:^$(SIMPLE_STACK)/files/::')
 
 define COMPONENT_BUILD
-$(SIMPLE_STACK_BIN)/component build --copy --use $(SIMPLE_STACK)/lib/nghtml,$(SIMPLE_STACK)/node_modules/component-stylus --standalone $(PROJECT)
+$(SIMPLE_STACK_BIN)/component build --copy --use $(SIMPLE_STACK)/lib/nghtml,$(SIMPLE_STACK)/node_modules/component-stylus
 endef
 
 prod    : build build/build.min.js build/build.min.css manifest.json
