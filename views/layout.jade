@@ -7,18 +7,34 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
     title(ng-bind="$root.title")= title
     meta(name='description', content=description)
     meta(name='author', content=author)
+
+    //- redirect users without JS enabled to noscript page.
+    //- NOTE: in the near future this will set a cookie indicating
+    //-       the server needs to render the page instead of the
+    //-       client; for now we redirect to an error page
+    if noscriptRedirect
+      noscript
+        meta(http-equiv="refresh", content="0; url=noscript")
+
+    //- the default setting for the viewport prevents zooming on mobile
+    //- to disable this behavior override the 'viewport' block
     block viewport
       meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+
+    //- add any additional meta tags with the 'meta' block
     block meta
 
+    //- record the start time and initialize the environment here
     script.
-      if(window.location.hash==='#_=_')window.location.hash='';var _s=new Date;window.env=!{JSON.stringify(env)};
+      _s=new Date;env=!{JSON.stringify(env)};
     block styles
       each style in styles
         link(href=style, rel="stylesheet")
       style.
         .ng-cloak{display:none};
+    //- add any extra head elements with the 'head' block
     block head
+    //- add any other needed IE shims or remove them with 'ie-shims'
     block ie-shims
       // if lte IE 7
         script.

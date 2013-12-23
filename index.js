@@ -123,7 +123,8 @@ exports = module.exports = function(opts) {
 
     res.locals({
       styles: styles(min, path),
-      scripts: scripts(min, path)
+      scripts: scripts(min, path),
+      noscriptRedirect: !req.cookies.noscript
     });
     next();
   });
@@ -180,25 +181,10 @@ exports = module.exports = function(opts) {
   app.remove('json');
   app.remove('urlencoded');
 
-  /**
-   * Index
-   */
-
-  function index(req, res, next){
-    // If we don't have the site url set, get it from the header or env
-    if (!res.locals.site) res.locals.site = req.get('x-ui-url') || SITE_URL || req.base;
-
-    // Expose the base url to the view
-    res.locals.base = req.base;
-
-    auth.authenticate(restricted)(req, res, function(err) {
-      if (err) return next(err);
-
-      // TODO send dns-prefetch the api and cdn
-
-      res.render(app.get('index view') || 'index');
-    });
-  };
+  app.get('/noscript', function(req, res) {
+    res.cookie('noscript', '1');
+    res.render('noscript');
+  });
 
   /**
    * Serve an error page for any unrecoverable errors on the client
@@ -218,6 +204,26 @@ exports = module.exports = function(opts) {
   routes.forEach(function(route) {
     app.get(route, index);
   });
+
+  /**
+   * Index
+   */
+
+  function index(req, res, next){
+    // If we don't have the site url set, get it from the header or env
+    if (!res.locals.site) res.locals.site = req.get('x-ui-url') || SITE_URL || req.base;
+
+    // Expose the base url to the view
+    res.locals.base = req.base;
+
+    auth.authenticate(restricted)(req, res, function(err) {
+      if (err) return next(err);
+
+      // TODO send dns-prefetch the api and cdn
+
+      res.render(app.get('index view') || 'index');
+    });
+  };
 
   return app;
 };
