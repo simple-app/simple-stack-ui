@@ -150,26 +150,12 @@ exports = module.exports = function(opts) {
   });
 
   /**
-   * Serve feature flags
+   * Set enabled feature flags
    */
 
-  var features = '';
-  try {
-    features = require(root + '/features.json').join(',');
-  } catch (e) {};
-
-  app.get('/features.json', function(req, res) {
-    if (features === '') return res.send([]);
-    res.send(features.split(','));
-  });
-
   app.useBefore('router', '/', 'features', function(req, res, next) {
-    var featuresList = req.get('x-env') === 'production'
-      ? ENABLED_FEATURES
-      : features;
-
-    if (featuresList !== req.cookies.features) res.cookie('features', featuresList);
-
+    if (req.get('x-env') !== 'production') return next();
+    if (ENABLED_FEATURES !== req.cookies.features) res.cookie('features', ENABLED_FEATURES);
     next();
   });
 
