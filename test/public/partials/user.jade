@@ -1,0 +1,10 @@
+h2(data-hyper-bind="user.name")
+p(data-hyper-bind="user.description")
+
+form(data-hyper-form="user.update")
+  input(data-ng-repeat="input in inputs", data-hyper-input="input")
+  input(type="submit", value="Update")
+
+form(data-hyper-form="user.remove")
+  input(data-ng-repeat="input in inputs", data-hyper-input="input")
+  input(type="submit", value="Remove")

@@ -1,0 +1,30 @@
+{
+  "repo": "CamShaft/simple-stack-ui-test",
+  "name": "simple-stack-ui-test",
+  "description": "Test app for simple-stack-ui",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "CamShaft/simple-ui": "*",
+    "component/type": "*",
+    "component/each": "*"
+  },
+  "development": {},
+  "main": "public/javascripts/main.js",
+  "scripts": [
+    "public/javascripts/index.js",
+    "public/javascripts/main.js",
+    "public/javascripts/routes.js"
+  ],
+  "styles": [
+    "public/stylesheets/index.styl"
+  ],
+  "angular-templates": [
+    "public/partials/footer.jade",
+    "public/partials/header.jade",
+    "public/partials/index.jade",
+    "public/partials/sidenav.jade",
+    "public/partials/user.jade"
+  ],
+  "license": "MIT"
+}

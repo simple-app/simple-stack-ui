@@ -80,6 +80,7 @@ exports = module.exports = function(opts) {
    */
 
   app.set('view engine', 'jade');
+  app.engine('jade', require('jade').__express);
 
   /**
    * Set locals defauls

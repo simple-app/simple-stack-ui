@@ -1,0 +1,14 @@
+h2 Users
+ul(data-hyper=".users")
+  li(data-ng-repeat="user in users")
+    a(data-hyper-link="/users/:user", data-hyper-bind="user.name")
+form(data-hyper-form=".users.create")
+  pre(data-ng-show="hyperFormError") {{hyperFormError.stack || hyperFormError}}
+  input(data-ng-repeat="input in inputs", data-hyper-input="input")
+  input(type="submit", value="Create")
+
+ul(data-ng-class="{expanded: expanded}")
+  li 1
+  li 2
+  li 3
+a(data-ng-init="expanded = false", data-ng-click="expanded = !expanded") toggle
