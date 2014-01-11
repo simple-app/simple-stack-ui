@@ -57,13 +57,15 @@ exports = module.exports = function(opts) {
 
   var styles = function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.css' : 'build/build.css', path, min)
+      assetLookup(min ? 'build/style.min.css' : 'build/style.css', path, min)
     ];
   }
 
   var scripts = function(min, path) {
     return [
-      assetLookup(min ? 'build/build.min.js' : 'build/build.js', path, min)
+      assetLookup(min ? 'build/require.min.js' : 'build/require.js', path, min),
+      assetLookup(min ? 'build/vendor.min.js' : 'build/vendor.js', path, min),
+      assetLookup(min ? 'build/app.min.js' : 'build/app.js', path, min)
     ];
   }
 
