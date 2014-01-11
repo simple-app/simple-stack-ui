@@ -54,9 +54,7 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
     block scripts
       //- catch any parse errors in the javascript
       script.
-        var _onerror = window.onerror;
         window.onerror = function(errorMsg, url, lineNumber) {
-          window.onerror = _onerror;
           var message = errorMsg + '\n' + url + ':' + lineNumber;
           window.displayError = function() {
             // TODO log error to server
@@ -66,10 +64,12 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
           };
           document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" onload="displayError()"><\/script>');
         };
+      script.
+        scriptDidLoad.count = !{scripts.length};
+        function scriptDidLoad() {
+          scriptDidLoad.count--;
+          if (scriptDidLoad.count) return;
+          require('!{app}');
+        }
       each script in scripts
-        script(src=script)
-
-    script.
-      require('!{app}');
-      window.onerror = _onerror;
-      if(window.metric&&metric.measure)metric.measure('page_load_time',(new Date-_s),'ms');
+        script(src=script, async, onload="scriptDidLoad()")
