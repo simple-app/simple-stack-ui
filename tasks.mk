@@ -17,7 +17,7 @@ DIRS  = $(shell find $(SIMPLE_STACK)/files -type d -name '*[a-zA-Z]' | sed 's:^$
 FILES = $(shell find $(SIMPLE_STACK)/files -type f                   | sed 's:^$(SIMPLE_STACK)/files/::')
 
 define COMPONENT_BUILD_CSS
-$(SIMPLE_STACK_BIN)/component build --use $(COMP_FILTER)/scripts,$(COMP_FILTER)/json,$(COMP_FILTER)/templates,$(SIMPLE_STACK)/node_modules/shoelace-component --name style
+$(SIMPLE_STACK_BIN)/component build --use $(COMP_FILTER)/scripts,$(COMP_FILTER)/json,$(COMP_FILTER)/templates,$(SIMPLE_STACK)/node_modules/component-stylus --name style
 # TODO figure out how to get rid of this script file
 rm -f build/style.js
 endef

@@ -31,6 +31,10 @@
     "component-builder": "~0.11.2",
     "shoelace-component": "~0.1.0",
     "component-filter": "~0.1.0",
-    "component-require": "~0.3.1"
+    "component-require": "~0.3.1",
+    "component-stylus": "git://github.com/mvanasse/component-stylus"
+  },
+  "peerDependencies": {
+    "component-builder": "~0.11.2"
   }
 }

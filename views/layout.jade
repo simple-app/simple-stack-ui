@@ -25,8 +25,6 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
     block meta
 
     //- record the start time and initialize the environment here
-    script.
-      _s=new Date;env=!{JSON.stringify(env)};
     block styles
       each style in styles
         link(href=style, rel="stylesheet")
@@ -36,16 +34,25 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
     block head
     //- add any other needed IE shims or remove them with 'ie-shims'
     block ie-shims
-      // if lte IE 7
-        script.
-          window.localStorage = false;
-          window.sessionStorage = false;
-      // if lte IE 9
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
-        //- TODO minify this
+      | <!--[if lte IE 7]>
+      script.
+        window.localStorage = false;
+        window.sessionStorage = false;
+      | <![endif]-->
+      | <!--[if lte IE 9]>
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
+      //- TODO minify this
+      script
         include ./ie-fixes.js
+      script.
+        window.console = window.console || function(){};
+        window.console.log = window.console.log || function(){};
+        window.console.warn = window.console.warn || function(){};
+      | <![endif]-->
+    // script.
+    //   env=!{JSON.stringify(env)};
 
   body(data-ng-controller="HyperController")
     block body
@@ -72,4 +79,6 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
           require('!{app}');
         }
       each script in scripts
-        script(src=script, async, onload="scriptDidLoad()")
+        script(src=script)
+      script.
+        require('!{app}');
