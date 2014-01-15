@@ -132,12 +132,9 @@ exports = module.exports = function(opts) {
     next();
   });
 
-  app.configure('development', function() {
-    if (!API_URL) return;
-    // Proxy the api
-    var proxy = require('simple-http-proxy');
-    app.useBefore('base', '/api', 'api-proxy', proxy(API_URL, {xforward: headers}));
-  });
+  // Proxy the api
+  var proxy = require('simple-http-proxy');
+  if (API_URL) app.useBefore('base', '/api', 'api-proxy', proxy(API_URL, {xforward: headers}));
 
   /**
    * Use authentication middleware
