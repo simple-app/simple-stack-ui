@@ -1,4 +1,3 @@
-
 PROJECT      ?= $(notdir $(CURDIR))
 DESCRIPTION  ?= A simple app
 ORGANIZATION ?= $(PROJECT)
@@ -36,7 +35,7 @@ cp $(SIMPLE_STACK)/node_modules/component-require/lib/require.js build/require.j
 endef
 
 build   : install lint build/require.js build/app.js build/style.css build/vendor.js
-prod    : build build/require.js build/app.min.js build/style.min.css build/vendor.min.js manifest.json
+prod    : build build/require.min.js build/app.min.js build/style.min.css build/vendor.min.js manifest.json
 install : node_modules components
 
 node_modules: package.json
