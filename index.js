@@ -127,7 +127,8 @@ exports = module.exports = function(opts) {
     res.locals({
       styles: styles(min, path),
       scripts: scripts(min, path),
-      noscriptRedirect: !req.cookies.noscript
+      noscriptRedirect: !req.cookies.noscript,
+      pretty: !min
     });
     next();
   });
