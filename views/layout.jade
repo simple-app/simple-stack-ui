@@ -24,52 +24,39 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
     //- add any additional meta tags with the 'meta' block
     block meta
 
-    //- record the start time and initialize the environment here
-    script.
-      _s=new Date;env=!{JSON.stringify(env)};
     block styles
-      each style in styles
-        link(href=style, rel="stylesheet")
       style.
         .ng-cloak{display:none};
+      each style in styles
+        link(href=style, rel="stylesheet")
     //- add any extra head elements with the 'head' block
     block head
     //- add any other needed IE shims or remove them with 'ie-shims'
     block ie-shims
-      // if lte IE 7
-        script.
-          window.localStorage = false;
-          window.sessionStorage = false;
-      // if lte IE 9
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
-        //- TODO minify this
+      | <!--[if lte IE 7]>
+      script.
+        window.localStorage = false;
+        window.sessionStorage = false;
+      | <![endif]-->
+      | <!--[if lte IE 9]>
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.1.0/es5-shim.min.js")
+      //- TODO minify this
+      script
         include ./ie-fixes.js
+      script.
+        window.console = window.console || function(){};
+        window.console.log = window.console.log || function(){};
+        window.console.warn = window.console.warn || function(){};
+      | <![endif]-->
 
   body(data-ng-controller="HyperController")
     block body
 
     //- TODO maybe use a script loader like headjs
     block scripts
-      //- catch any parse errors in the javascript
-      script.
-        window.onerror = function(errorMsg, url, lineNumber) {
-          var message = errorMsg + '\n' + url + ':' + lineNumber;
-          window.displayError = function() {
-            // TODO log error to server
-            $('body').load('_error', function() {
-              $('#error').text(message);
-            });
-          };
-          document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" onload="displayError()"><\/script>');
-        };
-      script.
-        scriptDidLoad.count = !{scripts.length};
-        function scriptDidLoad() {
-          scriptDidLoad.count--;
-          if (scriptDidLoad.count) return;
-          require('!{app}');
-        }
       each script in scripts
-        script(src=script, async, onload="scriptDidLoad()")
+        script(src=script)
+      script.
+        require('!{app}');

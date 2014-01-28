@@ -11,12 +11,13 @@ PARTIAL_FILES = $(shell find public -type f -name '*.jade')
 SIMPLE_STACK      = $(CURDIR)/node_modules/simple-stack-ui
 SIMPLE_STACK_BIN  = $(SIMPLE_STACK)/node_modules/.bin
 COMP_FILTER	  = $(SIMPLE_STACK)/node_modules/component-filter
+STYLE_BUILDER    ?= $(SIMPLE_STACK)/node_modules/shoelace-component
 
 DIRS  = $(shell find $(SIMPLE_STACK)/files -type d -name '*[a-zA-Z]' | sed 's:^$(SIMPLE_STACK)/files/::')
 FILES = $(shell find $(SIMPLE_STACK)/files -type f                   | sed 's:^$(SIMPLE_STACK)/files/::')
 
 define COMPONENT_BUILD_CSS
-$(SIMPLE_STACK_BIN)/component build --use $(COMP_FILTER)/scripts,$(COMP_FILTER)/json,$(COMP_FILTER)/templates,$(SIMPLE_STACK)/node_modules/shoelace-component --name style
+$(SIMPLE_STACK_BIN)/component build --use $(COMP_FILTER)/scripts,$(COMP_FILTER)/json,$(COMP_FILTER)/templates,$(STYLE_BUILDER) --name style
 # TODO figure out how to get rid of this script file
 rm -f build/style.js
 endef
