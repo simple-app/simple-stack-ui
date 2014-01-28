@@ -3,6 +3,7 @@
  */
 
 var stack = require('simple-stack-common');
+var urlparse = require('url').parse;
 var envs = require('envs');
 var assets = require('simple-assets');
 var oauth = require('./lib/oauth');
@@ -122,7 +123,7 @@ exports = module.exports = function(opts) {
 
   app.useBefore('router', function assetLocals(req, res, next) {
     var min = req.get('x-env') === 'production';
-    var path = req.get('x-orig-path') || '';
+    var path = urlparse(req.base).pathname;
 
     res.locals({
       styles: styles(min, path),
