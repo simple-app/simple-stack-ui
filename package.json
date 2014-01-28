@@ -1,6 +1,6 @@
 {
   "name": "simple-stack-ui",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "UI simple stack",
   "main": "index.js",
   "scripts": {
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CamShaft/simple-stack-ui.git"
+    "url": "https://github.com/simple-app/simple-stack-ui.git"
   },
-  "author": "Cameron Bytheway <cameron@theflokk.com>",
+  "author": "Cameron Bytheway <bytheway.cameron@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CamShaft/simple-stack-ui/issues"
+    "url": "https://github.com/simple-app/simple-stack-ui/issues"
   },
   "dependencies": {
     "simple-stack-common": "~0.2.2",

@@ -59,4 +59,5 @@ html(xmlns:ng="http://angularjs.org", data-ng-app=app, class="ng-app:" + app)#ng
       each script in scripts
         script(src=script)
       script.
+        require('/camshaft-envs').set(!{JSON.stringify(env)});
         require('!{app}');
