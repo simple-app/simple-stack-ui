@@ -125,6 +125,8 @@ exports = module.exports = function(opts) {
     var min = req.get('x-env') === 'production';
     var path = urlparse(req.base).pathname;
 
+    if (path === '/') path = '';
+
     res.locals({
       styles: styles(min, path),
       scripts: scripts(min, path),
