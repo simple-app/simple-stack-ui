@@ -2,6 +2,7 @@ PROJECT      ?= $(notdir $(CURDIR))
 DESCRIPTION  ?= A simple app
 ORGANIZATION ?= $(PROJECT)
 REPO         ?= $(ORGANIZATION)/$(PROJECT)
+NG_VERSION   ?= *
 
 JS_FILES      = $(shell find public -type f -name '*.js')
 CSS_FILES     = $(shell find public -type f -name '*.css')
@@ -85,7 +86,7 @@ $(DIRS):
 	@mkdir -p $@
 
 $(FILES):
-	@awk '{gsub(/PROJECT/, "$(PROJECT)"); gsub(/DESCRIPTION/, "$(DESCRIPTION)"); gsub(/REPO/, "$(REPO)");print}' \
+	@awk '{gsub(/PROJECT/, "$(PROJECT)"); gsub(/DESCRIPTION/, "$(DESCRIPTION)"); gsub(/REPO/, "$(REPO)"); gsub(/NG_VERSION/, "$(NG_VERSION)");print}' \
 		$(SIMPLE_STACK)/files/$@ > $@
 
 .PHONY: clean build prod init install lint

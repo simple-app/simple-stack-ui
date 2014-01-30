@@ -5,13 +5,13 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "CamShaft/simple-ui": "*"
+    "camshaft/simple-ui": "*",
+    "camshaft/component-angular": "NG_VERSION"
   },
   "development": {},
   "main": "public/javascripts/main.js",
   "scripts": [
     "public/javascripts/index.js",
-    "public/javascripts/main.js",
     "public/javascripts/routes.js"
   ],
   "styles": [
