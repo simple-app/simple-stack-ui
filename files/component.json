@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "camshaft/simple-ui": "*",
+    "simple-app/simple-ui": "*",
     "camshaft/component-angular": "NG_VERSION"
   },
   "development": {},
