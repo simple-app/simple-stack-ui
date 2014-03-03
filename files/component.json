@@ -9,7 +9,7 @@
     "camshaft/component-angular": "NG_VERSION"
   },
   "development": {},
-  "main": "public/javascripts/main.js",
+  "main": "public/javascripts/index.js",
   "scripts": [
     "public/javascripts/index.js",
     "public/javascripts/routes.js"

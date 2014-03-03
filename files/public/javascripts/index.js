@@ -2,7 +2,7 @@
  * Module dependencies
  */
 
-module.exports = require('simple-ui')('PROJECT', [], require);
+var app = module.exports = require('simple-ui')('PROJECT', [], require);
 
 /**
  * Initialize partials
